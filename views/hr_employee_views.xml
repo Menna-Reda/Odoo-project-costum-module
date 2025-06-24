@@ -1,0 +1,53 @@
+<odoo>
+    <record id="hr_kanban_view_employees_inherit" model="ir.ui.view">
+        <field name="name">hr.hr_kanban_view_employees.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="github_account"/>
+            </xpath>
+            <xpath expr="//li[contains(@class, 'hr_tags')]" position="before">
+                <li t-if="record.github_account.raw_value" class="o_text_overflow">
+                    <i class="fa fa-fw me-2 fa-brands fa-github text-primary" title="Github"/>
+                    <field name="github_account"/>
+                </li>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_tree_view_employees_inherit" model="ir.ui.view">
+        <field name="name">hr.hr_tree_view_employees.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <field name="work_email" position="after">
+                <field name="github_account"/>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="hr_form_view_employees_inherit" model="ir.ui.view">
+        <field name="name">hr.hr_form_view_employees.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="work_email" position="after">
+                <field name="github_account"/>
+            </field>
+            <xpath expr="//sheet/notebook" position="inside">
+            <page string="Project Collaborations">
+                <field name="collaborator_ids" context="{'default_employee_id': active_id}">
+                    <tree editable="bottom" decoration-success="status == 'active'" decoration-danger="status == 'inactive'">
+                        <field name="project_id"/>
+                        <field name="status"/>
+                        <button name="action_active" type="object" class="btn-success" string="Set Active" invisible="status == 'active'"/>
+                        <button name="action_inactive" type="object" class="btn-danger" string="Set Inactive" invisible="status == 'inactive'"/>
+                    </tree>
+                </field>
+            </page>
+        </xpath>
+        </field>
+    </record>
+</odoo>

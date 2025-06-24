@@ -1,0 +1,83 @@
+<odoo>
+    <record id="project_report" model="ir.actions.report">
+        <field name="name">Project Report</field>
+        <field name="model">project.project</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_model_id" ref="project.model_project_project"/>
+        <field name="binding_type">report</field>
+        <field name="report_name">project_custom.project_report_template</field>
+        <field name="report_file">project_custom.project_report_template</field>
+    </record>
+
+    <template id="project_report_template">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <h2 class="text-center" style="margin-bottom: 20px;">Project Report</h2>
+                    <hr style="border-top: 1px solid #ccc; margin-bottom: 30px;"/>
+                    <div class="card" style="border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 30px; padding: 20px;">
+                        <h3 style="color: #337ab7; margin-top: 0;">Project Details</h3>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-6"><strong>Project Name:</strong></div>
+                            <div class="col-6"><t t-esc="doc.name"/></div>
+                        </div>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-6"><strong>Project Date:</strong></div>
+                            <div class="col-6">
+                                <t t-if="doc.date_start ">
+                                    <t t-esc="doc.date_start"/> 
+                                </t>
+                                
+                                <t t-else="">
+                                    N/A
+                                </t>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-6"><strong>GitHub Repository Name:</strong></div>
+                            <div class="col-6"><t t-esc="doc.github_repo_name or 'N/A'"/></div>
+                        </div>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-6"><strong>GitHub Repository URL:</strong></div>
+                            <div class="col-6">
+                                <t t-if="doc.github_repo_url">
+                                    <a t-att-href="doc.github_repo_url" target="_blank"><t t-esc="doc.github_repo_url"/></a>
+                                </t>
+                                <t t-else="">
+                                    N/A
+                                </t>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-6"><strong>Odoo Version:</strong></div>
+                            <div class="col-6"><t t-esc="doc.odoo_version or 'N/A'"/></div>
+                        </div>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-6"><strong>Odoo Type:</strong></div>
+                            <div class="col-6"><t t-esc="doc.odoo_type or 'N/A'"/></div>
+                        </div>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-6"><strong>Hosting:</strong></div>
+                            <div class="col-6"><t t-esc="doc.hosting or 'N/A'"/></div>
+                        </div>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-6"><strong>Collaborators:</strong></div>
+                            <div class="col-6">
+                                <t t-if="doc.collaborator_ids">
+                                    <ul style="margin:0; padding-left: 18px;">
+                                        <t t-foreach="doc.collaborator_ids" t-as="collab">
+                                            <li><t t-esc="collab.employee_id.name or 'N/A'"/></li>
+                                        </t>
+                                    </ul>
+                                </t>
+                                <t t-else="">
+                                    N/A
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

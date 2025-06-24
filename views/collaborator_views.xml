@@ -1,0 +1,27 @@
+<odoo>
+    <record id="collaborator_tree_view" model="ir.ui.view">
+        <field name="name">project.collaborator.tree</field>
+        <field name="model">project_custom.collaborator</field>
+        <field name="arch" type="xml">
+            <tree string="Collaborators" decoration-success="status == 'active'" decoration-danger="status == 'inactive'">
+                <field name="employee_id"/>
+                <field name="status"/>
+                <button name="action_active" type="object" class="btn-success" string="Set Active" invisible="status == 'active'"/>
+                <button name="action_inactive" type="object" class="btn-danger" string="Set Inactive" invisible="status == 'inactive'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="collaborator_window_action" model="ir.actions.act_window">
+        <field name="name">Collaborators</field>
+        <field name="res_model">project_custom.collaborator</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="collaborator_menu_item"
+        name="Collaborators"
+        parent="project.menu_main_pm"
+        action="collaborator_window_action"
+    />
+</odoo>

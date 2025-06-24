@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="edit_project_inherit" model="ir.ui.view">
+            <field name="name">project.project.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="before">
+                    <group string="Odoo Details">
+                        <field name="odoo_version"/>
+                        <field name="odoo_type"/>
+                    </group>
+                    <group string="GitHub Details">
+                        <field name="github_repo_name"/>
+                        <field name="github_repo_url" widget="url"/>
+                    </group>
+                    <group string="Hosting Details">
+                        <field name="hosting"/>
+                        <field name="hosting_description" widget="html"/>
+                    </group>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Collaborators">
+                        <field name="collaborator_ids">
+                            <tree editable="bottom" decoration-success="status == 'active'" decoration-danger="status == 'inactive'">
+                                <field name="employee_id"/>
+                                <field name="status"/>
+                                <button name="action_active" type="object" class="btn-success" string="Set Active" invisible="status == 'active'"/>
+                                <button name="action_inactive" type="object" class="btn-danger" string="Set Inactive" invisible="status == 'inactive'"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
